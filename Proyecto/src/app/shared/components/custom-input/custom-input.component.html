@@ -1,0 +1,16 @@
+<ion-item class="custom-input" lines="none">
+  <ion-icon style="color: #27AE60;" *ngIf="icon" slot="start" [name]="icon"></ion-icon>
+<!-- PARÁMETROS Y SUS ATRIBUTOS COMPARTIDOS PARA TODOS LAS CUSTOMIZACIONES DE LOS INPUT-->
+  <ion-input 
+  [type]="type"
+  [autocomplete]="autocomplete" 
+  [label]="label"
+  [formControl]="control" 
+  label-placement="floating"
+  >
+  </ion-input>
+ <ion-button  *ngIf="isPassword" (click)="mostrarPassword()" slot="end" fill="clear" shape="round">
+    <ion-icon slot="icon-only" [name]="oculta?'eye-outline':'eye-off-outline'"></ion-icon>
+  </ion-button>  
+ 
+</ion-item>

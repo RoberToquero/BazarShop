@@ -1,13 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registro</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Registro"></app-header>
+<ion-content>
+  <div class="d-flex-center">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registro</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <form [formGroup]="form" class="registro-form">
+
+      <app-custom-input 
+      autocomplete="email"
+      icon="mail-outline"
+      [control]="form.controls.email"
+      type="email"
+      label="Correo"
+      ></app-custom-input>
+      
+      <app-custom-input
+      [control]="form.controls.password"
+       icon="lock-closed-outline"
+       type="password"
+      label="Contraseña"
+       ></app-custom-input>
+  
+    </form>
+
+  </div>
+  
+  
 </ion-content>
