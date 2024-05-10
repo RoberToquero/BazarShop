@@ -1,17 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>TicketTime</ion-title>
-  </ion-toolbar>
-</ion-header>
-
+<app-header title="Inicio"></app-header>
 <ion-content>
   <body>
-    <ion-button (click)="navegarMapa()">Ir a Mapa</ion-button>
     <ion-list>
       <ion-item *ngFor="let inicio of arr">
         <ion-label (click)="pulsarNombre(inicio)">{{inicio}}</ion-label>
       </ion-item>
     </ion-list>
+    
+    <div class="d-flex-center">
+
+        <ion-button  expand="block" mode="ios" [routerLink]="['/login']"  color="secondary">
+          Entrar
+          <ion-icon slot="end" name="log-in-outline"></ion-icon>
+        </ion-button>
+        <ion-button  class="ion-margin-top" expand="block" [routerLink]="['/registro']"  mode="ios" color="secondary">
+          Registro
+          <ion-icon slot="end" name="person-add-outline"></ion-icon>
+        </ion-button>
+    
+  
+    </div>
+
   </body>
 </ion-content>
   

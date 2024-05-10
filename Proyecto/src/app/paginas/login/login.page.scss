@@ -1,7 +1,7 @@
 body{
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #4e5ec8 0%, #8b5ddc 100%);
+    background: linear-gradient(90deg, #F9E79F 0%, #A3E4D7 100%);
   }
   .container{
     width: 75%;
@@ -15,22 +15,7 @@ body{
     width: 170px;
     padding: .75rem;
   }
-  .cajita{
-    border: 1px solid #99999900;
-    margin: 30px auto 20px auto;  
-    padding: .5rem;
-    width: 120px;
-    background: linear-gradient(0deg, #FFFFFF, #FFFFFF);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
-  }
-  .cajita:disabled{
-    border: 1px solid #999999;
-    background-color: #cccccc;
-    .letra{
-        color: #666666;
-    }
-}
+  
   ion-item ion-label:nth-child(1){
     margin-left: 8px;
   }
@@ -64,7 +49,7 @@ body{
     color: black;
   }
   .letra-recover{
-    color: white;
+    color: #979A9A;
   }
   a{
     text-decoration: none;

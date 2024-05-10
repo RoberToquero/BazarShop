@@ -3,33 +3,58 @@
 <ion-content>
   <body>
     <ion-buttons slot="start">
-      <ion-back-button text="Atrás" defaultHref="/inicio" style="color: #f59e09;"></ion-back-button>
+      <ion-back-button defaultHref="/inicio" style="color: #1C2833;"></ion-back-button>
     </ion-buttons>
     <div class="container">
       <div class="caja-grande ion-text-center">
         <h1 class="letra">Bienvenido</h1>
       </div>
-      <ion-item mode="ios">
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-      <ion-item mode="ios">
-        <ion-label position="stacked">Password</ion-label>
-        <ion-input type="password"></ion-input>
-      </ion-item>
-      <div class="ion-text-center">
-        <button class="cajita ion-text-center">
-          <h5 class="letra">Entrar</h5>
-        </button>
+
+      <div class="d-flex-center">
+
+        <form [formGroup]="form" class="registro-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+          <app-logo></app-logo>
+          <app-custom-input 
+          autocomplete="email"
+          icon="mail-outline"
+          [control]="form.controls.email"
+          type="email"
+          label="Correo"
+          ></app-custom-input>
+
+          <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+            <div *ngIf="form.controls.email.errors?.['required']">Necesitas introducir un correo</div>
+            <div *ngIf="form.controls.email.errors?.['email']">Ingrese un correo válido</div>
+          </div>
+          
+          <app-custom-input
+          [control]="form.controls.password"
+           icon="lock-closed-outline"
+           type="password"
+          label="Contraseña"
+           ></app-custom-input>
+
+           <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+            <div *ngIf="form.controls.email.errors?.['required']">La contraseña es requerida</div>
+          </div>
+
+          <ion-button  expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid" color="tertiary">
+            Entrar
+            <ion-icon slot="end" name="log-in-outline"></ion-icon>
+          </ion-button>
+      
+        </form>
+    
       </div>
+
       <div class="container-sub ion-padding-top">
         <span class="letra-peq ion-text-left">
           ¿No estás registrado?<br>
-          <span class="letra-register"><strong>Crea una cuenta</strong></span>
+          <span class="letra-register" (click)="navegarRegistro()"><strong>Crea una cuenta</strong></span>
         </span>
       
         <span class="letra-peq ion-text-end letra-recover-container">
-          <a class="letra-recover">¿Olvidaste tu contraseña?</a>
+          <a class="letra-recover" [routerLink]="['/recuperar-password']" >¿Olvidaste tu contraseña?</a>
         </span>
       </div>
     </div>

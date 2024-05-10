@@ -46,9 +46,7 @@ export class InicioPage implements OnInit {
   pulsarNombre = (inicio: any) => {
     console.log(inicio);
   }
-  navegarMapa(){
-    //Acciones previas a la navegación
-    this.router.navigate(['/mapa'])
-  }
+ 
+
 
 }
