@@ -1,11 +1,7 @@
-<app-header title="Registro"></app-header>
+<app-header backButton="/inicio" title="Registro"></app-header>
 
 <ion-content>
-<div>
-  <ion-buttons slot="start">
-    <ion-back-button defaultHref="/inicio" style="color: #1C2833;"></ion-back-button>
-  </ion-buttons>
-</div>
+
   
   <div class="d-flex-center">
 
@@ -26,6 +22,7 @@
         <div *ngIf="form.controls.name.errors?.['required']">Necesitas introducir un nombre de usuario</div>
         <div *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 5 caracteres</div>
       </div>
+
     <!-- Email -->
       <app-custom-input 
       autocomplete="email"
@@ -39,6 +36,7 @@
         <div *ngIf="form.controls.email.errors?.['required']">Necesitas introducir un correo</div>
         <div *ngIf="form.controls.email.errors?.['email']">Ingrese un correo válido</div>
       </div>
+
        <!-- Password -->
       <app-custom-input
       [control]="form.controls.password"

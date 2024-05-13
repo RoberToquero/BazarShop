@@ -8,6 +8,7 @@ import { Component, Input, OnInit, input } from '@angular/core';
 export class HeaderComponent  implements OnInit {
 // Para pasarle parámetros no inicializados al componente
   @Input() title!: string;
+  @Input() backButton!: string;
 
   constructor() { }
 

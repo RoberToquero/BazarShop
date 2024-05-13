@@ -45,7 +45,8 @@ export class LoginPage implements OnInit {
 
       await loading.present(); //llaMando al loading cuando se inicia esta funcion
       this.firebaseSvc.signIn(this.form.value as User). then(res =>{
-        console.log(res);
+       
+        this.getUserInfo(res.user.uid)
         //Controlando errores 
       }).catch(error =>
         {console.log(error);
@@ -66,5 +67,46 @@ export class LoginPage implements OnInit {
       )
     }
   }
+  async getUserInfo(uid: string){
+
+    if(this.form.valid){
+
+      const loading=await this.utilsSvc.loading();
+
+      await loading.present(); //llamando al loading cuando se inicia esta funcion
+      //FUNCION DE MODIFICAR
+      let path =`users/${uid}`; //lugar donde se almacenará la info de los usuarios
+      
+
+      this.firebaseSvc.getDocument(path).then((user: User)=>{
+
+        this.utilsSvc.saveInLocal('user', user);
+        this.utilsSvc.routerLink('/home/principal');
+        this.form.reset();
+
+        this.utilsSvc.presentToast({
+          message:"Te damos la bienvenida",
+          duration: 2500,
+          color:'success',
+          position:'middle',
+          icon:'person-circle-outline'
+        });
+
+        
+      }).catch(error => {
+        console.log(error);
+
+        this.utilsSvc.presentToast({
+          message: "Email o contraseña incorrectos. Inténtalo de nuevo.",
+          duration: 3500,
+          color:'warning',
+          position:'middle',
+          icon:'alert-circle-outline'
+        });
+      }).finally(() => {
+        loading.dismiss();
+      });
+    }
+}
 
 }

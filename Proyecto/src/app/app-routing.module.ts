@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RecuperarPasswordPageModule } from './paginas/login/recuperar-password/recuperar-password.module';
+import { NoAuthGuard } from './guards/no-auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+
+
 
 const routes: Routes = [
 
   {
     path: 'inicio',
-    loadChildren: () => import('./paginas/inicio/inicio.module').then( m => m.InicioPageModule)
+    loadChildren: () => import('./paginas/inicio/inicio.module').then( m => m.InicioPageModule), canActivate:[NoAuthGuard]
   },
   {
     path:'',
@@ -25,6 +29,11 @@ const routes: Routes = [
     path: 'recuperar-password',
     loadChildren: () => import('./paginas/login/recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
   },
+  {
+    path: 'home',
+    loadChildren: () => import('./paginas/home/home.module').then( m => m.HomePageModule), canActivate:[AuthGuard]
+  },
+
 
 ];
 

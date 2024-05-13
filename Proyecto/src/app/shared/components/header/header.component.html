@@ -1,6 +1,11 @@
 <!-- Aquí se almacenan los componentes compartidos del header que son llamados desde el respectivo html de cada página -->
 <ion-header class="ion-no-border">
   <ion-toolbar color="tertiary">
+
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="backButton" [defaultHref]="backButton"></ion-back-button>
+    </ion-buttons>
+
     <ion-title class="text-center">
       <strong>{{title}}</strong>
       <div class="admin">B A Z A R S H O P</div>
