@@ -30,9 +30,12 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
   utilsSvc = inject(UtilsService);
 
+  user = {} as User;
+
 
 
   ngOnInit() {
+    this.user = this.utilsSvc.getFromLocal('user');
   }
 
   //FUNCION PARA REALIZAR/SELECCIONAR IMAGEN, debe ser asíncrona hay que esperar a que devuelva la imagen
@@ -48,19 +51,35 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
     if(this.form.valid){
 
+      let path = `users/${this.user.uid}/productos`
+
       const loading=await this.utilsSvc.loading();
 
       await loading.present(); //llaMando al loading cuando se inicia esta funcion
-      //FUNCION DE REGISTRO
-      this.firebaseSvc.signUp(this.form.value as User). then(async res =>{
+      
+      //Parámetros para subir la imagen y obtener la URL
 
-        await this.firebaseSvc.updateUser(this.form.value.nombre);
+      let dataUrl = this.form.value.imagen;
+      let imagenPath = `${this.user.uid}/${Date.now()}`; //De este modo se obtiene un path único para cada imagen
 
-        let uid= res.user.uid;
+      //Obtner la URL de la imagen
+      let imagenUrl = await this.firebaseSvc.uploadImage(imagenPath,dataUrl);
+      this.form.controls.imagen.setValue(imagenUrl); 
+
+      delete this.form.value.id //Se borra el ID porque se realiza en la función de actualizar pero no para la de agregar 
+
+      this.firebaseSvc.addDocument(path,this.form.value). then(async res =>{
+
+        this.utilsSvc.dismissModal({ success: true});
+
+        this.utilsSvc.presentToast({
+          message: "Producto creado correctamente",
+          duration: 2500,
+          color:'success',
+          position:'middle',
+          icon:'checkmark-circle-outline'
+        })
         
-
-
-       
         //Controlando errores 
       }).catch(error =>
         {console.log(error);

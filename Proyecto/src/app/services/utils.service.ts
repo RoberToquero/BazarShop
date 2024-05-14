@@ -55,8 +55,19 @@ export class UtilsService {
 
   //Obtener un elemento desde local
 
-  getFromLocal(key: string){
-    return JSON.parse(localStorage.getItem(key)) 
+  getFromLocal(key: string) {
+    const item = localStorage.getItem(key);
+    if (item !== null) {
+      try {
+        return JSON.parse(item);
+      } catch (error) {
+        console.error('Error al analizar JSON:', error);
+        return null; // o algún otro valor predeterminado
+      }
+    } else {
+      console.warn(`No hay ningún valor almacenado para la clave '${key}' en el almacenamiento local.`);
+      return null; // o algún otro valor predeterminado
+    }
   }
 
   // Modal

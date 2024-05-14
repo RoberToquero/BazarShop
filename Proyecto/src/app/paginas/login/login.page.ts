@@ -85,11 +85,11 @@ export class LoginPage implements OnInit {
         this.form.reset();
 
         this.utilsSvc.presentToast({
-          message:"Te damos la bienvenida",
+          message: `¡Bienvenido, ${user.nombre}!`,
           duration: 2500,
-          color:'success',
-          position:'middle',
-          icon:'person-circle-outline'
+          color: 'success',
+          position: 'middle',
+          icon: 'person-circle-outline'
         });
 
         
