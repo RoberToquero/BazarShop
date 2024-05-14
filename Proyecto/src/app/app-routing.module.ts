@@ -10,7 +10,7 @@ const routes: Routes = [
 
   {
     path: 'inicio',
-    loadChildren: () => import('./paginas/inicio/inicio.module').then( m => m.InicioPageModule), canActivate:[NoAuthGuard]
+    loadChildren: () => import('./paginas/inicio/inicio.module').then( m => m.InicioPageModule)
   },
   {
     path:'',
@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./paginas/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./paginas/login/login.module').then( m => m.LoginPageModule), canActivate:[NoAuthGuard]
   },
   {
     path: 'registro',

@@ -6,6 +6,13 @@
       <ion-back-button *ngIf="backButton" [defaultHref]="backButton"></ion-back-button>
     </ion-buttons>
 
+    <!-- Botón que solo aparece en la pantalla de añadir producto para cerrarla. Cuando es Modal -->
+    <ion-buttons slot="start">
+      <ion-button (click)="cerrarModal()"  *ngIf="isModal">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
     <ion-title class="text-center">
       <strong>{{title}}</strong>
       <div class="admin">B A Z A R S H O P</div>
