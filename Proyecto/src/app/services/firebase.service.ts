@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {getFirestore, setDoc, doc,getDoc, addDoc, collection, collectionData, query} from '@angular/fire/firestore';
+import {getFirestore, setDoc, doc,getDoc, addDoc, collection, collectionData, query, updateDoc} from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage';
@@ -63,13 +63,19 @@ export class FirebaseService {
 
  getCollectionData(path: string, collectionQuery?:any){
   const ref = collection(getFirestore(), path);
-  return collectionData(query(ref,collectionQuery))
+  return collectionData(query(ref,collectionQuery), {idField: 'id'});
  }
 
   //Setear un documento es decir crearlo si no existo y cambiarlo si es que existe
  setDocument(path: string, data: any){
    return setDoc(doc(getFirestore(), path), data);
  }
+
+ //Actualizar documento
+
+ updateDocument(path: string, data: any){
+  return updateDoc(doc(getFirestore(), path), data);
+}
 
  //Obtener un registro
 
@@ -91,6 +97,12 @@ export class FirebaseService {
     return uploadString(ref(getStorage(), path), data_url, 'data_url').then(() =>{
       return getDownloadURL(ref(getStorage(), path))
     })
+  }
+
+  //Obtener ruta de la imagen con su URL
+
+  async getFilePath(url:string){
+    return ref(getStorage(), url).fullPath
   }
 
 }

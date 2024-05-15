@@ -13,14 +13,14 @@
       <app-custom-input 
       autocomplete="name"
       icon="person-outline"
-      [control]="form.controls.name"
+      [control]="form.controls.nombre"
       type="text"
       label="Nombre Usuario"
       ></app-custom-input>
 
-      <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
-        <div *ngIf="form.controls.name.errors?.['required']">Necesitas introducir un nombre de usuario</div>
-        <div *ngIf="form.controls.name.errors?.['minlength']">El nombre debe tener al menos 5 caracteres</div>
+      <div class="validators" *ngIf="form.controls.nombre.errors && form.controls.nombre.touched">
+        <div *ngIf="form.controls.nombre.errors?.['required']">Necesitas introducir un nombre de usuario</div>
+        <div *ngIf="form.controls.nombre.errors?.['minlength']">El nombre debe tener al menos 5 caracteres</div>
       </div>
 
     <!-- Email -->
