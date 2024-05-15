@@ -50,13 +50,22 @@ export class AnadirActualizarProductosComponent  implements OnInit {
   submit(){
     if(this.form.valid){
       
-      if(this.producto) this.UpdateProduct();
+      if(this.producto) this.updateProduct();
       else this.createProduct();
     }
   }
 
+  //Convertir valores string en number
 
-   //FUNCION ASINCRONA AÑADIR PRODUCTO
+  convertirANumero(){
+    let {unidades, precio} = this.form.controls;
+
+    if(unidades.value) unidades.setValue(parseFloat(unidades.value));
+    if(precio.value) unidades.setValue(parseFloat(precio.value));
+  }
+
+
+   //CREAR PRODUCTO
    async createProduct(){
 
     
@@ -107,7 +116,7 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
   // ACTUALIZAR PRODUCTO
 
-  async UpdateProduct(){
+  async updateProduct(){
 
     
 

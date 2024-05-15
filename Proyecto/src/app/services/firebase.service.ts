@@ -4,10 +4,10 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {getFirestore, setDoc, doc,getDoc, addDoc, collection, collectionData, query, updateDoc} from '@angular/fire/firestore';
+import {getFirestore, setDoc, doc,getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc} from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage';
+import { getStorage, uploadString, ref, getDownloadURL, deleteObject } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +63,7 @@ export class FirebaseService {
 
  getCollectionData(path: string, collectionQuery?:any){
   const ref = collection(getFirestore(), path);
-  return collectionData(query(ref,collectionQuery), {idField: 'id'});
+  return collectionData(query(ref, ...collectionQuery), {idField: 'id'});
  }
 
   //Setear un documento es decir crearlo si no existo y cambiarlo si es que existe
@@ -75,6 +75,12 @@ export class FirebaseService {
 
  updateDocument(path: string, data: any){
   return updateDoc(doc(getFirestore(), path), data);
+}
+
+//Borrar un documento
+
+deleteDocument(path: string){
+  return deleteDoc(doc(getFirestore(), path));
 }
 
  //Obtener un registro
@@ -103,6 +109,12 @@ export class FirebaseService {
 
   async getFilePath(url:string){
     return ref(getStorage(), url).fullPath
+  }
+
+  // Eliminar archivos de la base de datos
+
+  deleteFile(path: string){
+   return deleteObject(ref(getStorage(),path));
   }
 
 }
