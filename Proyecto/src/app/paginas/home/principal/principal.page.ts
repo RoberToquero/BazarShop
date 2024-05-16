@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { User } from 'firebase/auth';
+import { User } from 'src/app/models/user.model';
 import { Producto } from 'src/app/models/producto.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -15,11 +15,49 @@ export class PrincipalPage implements OnInit {
 
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
+
+  
   
   productos: Producto [] = [];
+  usuario:User;
   loading: boolean= false;
+ 
   ngOnInit() {
+    this.usuario = this.utilsSvc.getFromLocal('user');
+    if (!this.usuario || !this.usuario.uid) {
+      console.error('User UID is not available');
+      return;
+    }
+    console.log('User UID:', this.usuario.uid);
+    console.log('User Email:', this.usuario.email);
+
+    this.getProducts();
+  }
+
+  // Obtener productos
+
+
+  getProducts(){
+    let path = `users/${this.usuario.uid}/productos`;
+
+    this.loading = true;
+
+    let query =( orderBy('unidades', 'desc'));  //Para que muestre los productos en orden descendente según cantidad de unidades  
     
+
+    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.productos = res;
+
+        this.loading = false;
+        sub.unsubscribe(); //Para mantener un control de cuantas veces se aceptan peticiones hay que dessuscribirse cada vez que se obtenga la respuesta
+      }
+    })
+  }
+
+  ionViewWillEnter() { //Sirve para ejecutar una funcion cada vez que el usuario entra a la página
+    this.getProducts();
   }
 
 
@@ -46,7 +84,7 @@ export class PrincipalPage implements OnInit {
     let success = await this.utilsSvc.presentModal({
       component: AnadirActualizarProductosComponent,
       cssClass:'anadir-actualizar-modal',
-      componentProps: {product}
+      componentProps: {product, user: this.usuario}
     })
     if(success) this.getProducts();
   }
@@ -76,7 +114,7 @@ export class PrincipalPage implements OnInit {
 
   async deleteProduct(producto: Producto){
 
-    let path = `users/${this.user().uid}/productos/${producto.id}`
+    let path = `users/${this.usuario.uid}/productos/${producto.id}`
 
     const loading=await this.utilsSvc.loading();
 
@@ -109,34 +147,5 @@ export class PrincipalPage implements OnInit {
       
     )
 }
-
-  // Obtener productos
-
-  user(): User{ //Funcion que siempre está retornando los datos del usuario
-    return this.utilsSvc.getFromLocal('user');
-  }
-
-  getProducts(){
-    let path = `users/${this.user().uid}/productos`;
-
-    this.loading = true;
-
-    let query =( orderBy('unidades', 'desc'));  //Para que muestre los productos en orden descendente según cantidad de unidades  
-    
-
-    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        this.productos = res;
-
-        this.loading = false;
-        sub.unsubscribe(); //Para mantener un control de cuantas veces se aceptan peticiones hay que dessuscribirse cada vez que se obtenga la respuesta
-      }
-    })
-  }
-
-  ionViewWillEnter() { //Sirve para ejecutar una funcion cada vez que el usuario entra a la página
-    this.getProducts();
-  }
 
 }

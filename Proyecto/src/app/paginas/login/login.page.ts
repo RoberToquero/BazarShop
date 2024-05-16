@@ -45,6 +45,10 @@ export class LoginPage implements OnInit {
 
       await loading.present(); //llaMando al loading cuando se inicia esta funcion
       this.firebaseSvc.signIn(this.form.value as User). then(res =>{
+
+        console.log('User UID:', res.user.uid);
+        console.log('User Email:', this.form.value.email);
+        
        
         this.getUserInfo(res.user.uid)
         //Controlando errores 
@@ -67,6 +71,7 @@ export class LoginPage implements OnInit {
       )
     }
   }
+  //Obtiene los datos del usuario
   async getUserInfo(uid: string){
 
     if(this.form.valid){
@@ -74,7 +79,7 @@ export class LoginPage implements OnInit {
       const loading=await this.utilsSvc.loading();
 
       await loading.present(); //llamando al loading cuando se inicia esta funcion
-      //FUNCION DE MODIFICAR
+      
       let path =`users/${uid}`; //lugar donde se almacenará la info de los usuarios
       
 
