@@ -1,4 +1,4 @@
-<app-header [isModal]="true" [title]=" producto ? 'Actualizar Producto' : 'Añadir Producto'"></app-header>
+<app-header [isModal]="true" [title]=" product ? 'Actualizar Producto' : 'Añadir Producto'"></app-header>
 <br>
 <ion-content>
   <div class="d-flex-center">
@@ -41,7 +41,8 @@
         [control]="form.controls.precio"
         type="number"
         label="Precio"
-        (ionInput)="convertirANumero()"
+        (ionInput)="convertirANumero()" 
+       
         ></app-custom-input>
   
         <div class="validators" *ngIf="form.controls.precio.errors && form.controls.precio.touched">
@@ -55,7 +56,7 @@
         [control]="form.controls.unidades"
         type="number"
         label="Unidades"
-        (ionInput)="convertirANumero()"   
+        (ionInput)="convertirANumero()" 
         ></app-custom-input>
   
         <div class="validators" *ngIf="form.controls.unidades.errors && form.controls.unidades.touched">
@@ -66,7 +67,7 @@
 
 
       <ion-button  mode="ios" class="ion-margin" type="submit" [disabled]="form.invalid" color="tertiary">
-        {{producto ? 'Actualizar Producto' : 'Añadir Producto'}}
+        {{product ? 'Actualizar Producto' : 'Añadir Producto'}}
         <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
       </ion-button>
   

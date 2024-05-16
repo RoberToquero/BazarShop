@@ -13,7 +13,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class AnadirActualizarProductosComponent  implements OnInit {
 
-  @Input() producto: Producto;
+  @Input() product: Producto;
+  
   form = new FormGroup({
     id: new FormControl(''),
     imagen: new FormControl('',[Validators.required]),
@@ -24,7 +25,7 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
   })
 
-  //INYECTANDO EL SERVICIO DE FIREBASE CON EL LOGIN PARA RECOGER DATOS 
+  //INYECTANDO EL SERVICIO DE FIREBASE PARA RECOGER DATOS 
 
   firebaseSvc = inject(FirebaseService);
 
@@ -38,7 +39,11 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
   ngOnInit() {
     this.user = this.utilsSvc.getFromLocal('user');
-    if(this.producto) this.form.setValue(this.producto);
+    if (!this.user || !this.user.uid) {
+      console.error('User UID is not available');
+      return;
+    }
+    if(this.product) this.form.setValue(this.product);
   }
 
   //FUNCION PARA REALIZAR/SELECCIONAR IMAGEN, debe ser asíncrona hay que esperar a que devuelva la imagen
@@ -50,7 +55,7 @@ export class AnadirActualizarProductosComponent  implements OnInit {
   submit(){
     if(this.form.valid){
       
-      if(this.producto) this.updateProduct();
+      if(this.product) this.updateProduct();
       else this.createProduct();
     }
   }
@@ -61,20 +66,23 @@ export class AnadirActualizarProductosComponent  implements OnInit {
     let {unidades, precio} = this.form.controls;
 
     if(unidades.value) unidades.setValue(parseFloat(unidades.value));
-    if(precio.value) unidades.setValue(parseFloat(precio.value));
+    if(precio.value) precio.setValue(parseFloat(precio.value));
   }
 
 
    //CREAR PRODUCTO
    async createProduct(){
 
-    
+    if (!this.user || !this.user.uid) {
+      console.error('User is not defined or user UID is missing');
+      return;
+    }
 
       let path = `users/${this.user.uid}/productos`
 
       const loading=await this.utilsSvc.loading();
 
-      await loading.present(); //llaMando al loading cuando se inicia esta funcion
+      await loading.present(); //llamando al loading cuando se inicia esta funcion
       
       //Parámetros para subir la imagen y obtener la URL
 
@@ -108,19 +116,14 @@ export class AnadirActualizarProductosComponent  implements OnInit {
         //SI TODO ESTA BIEN QUITAR LA FUNCION LOADING
       ).finally(()=>
         {loading.dismiss();
-      }
-        
-      )
-  
+      })
   }
 
   // ACTUALIZAR PRODUCTO
 
   async updateProduct(){
 
-    
-
-      let path = `users/${this.user.uid}/productos/${this.producto.id}`
+      let path = `users/${this.user.uid}/productos/${this.product.id}`
 
       const loading=await this.utilsSvc.loading();
 
@@ -128,12 +131,11 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
       //Si cambio la imagen, subir la nueva y obtener la url
       
-     if(this.form.value.imagen !== this.producto.imagen){
+     if(this.form.value.imagen !== this.product.imagen){
 
       let dataUrl = this.form.value.imagen;
-      let imagenPath = await this.firebaseSvc.getFilePath(this.producto.imagen);
-
-      //Obtner la URL de la imagen
+      let imagenPath = await this.firebaseSvc.getFilePath(this.product.imagen);
+      //Obtener la URL de la imagen
       let imagenUrl = await this.firebaseSvc.uploadImage(imagenPath,dataUrl);
       this.form.controls.imagen.setValue(imagenUrl); 
 
@@ -164,9 +166,7 @@ export class AnadirActualizarProductosComponent  implements OnInit {
         //SI TODO ESTA BIEN QUITAR LA FUNCION LOADING
       ).finally(()=>
         {loading.dismiss();
-      }
-        
-      )
+      })
   }
 
 }

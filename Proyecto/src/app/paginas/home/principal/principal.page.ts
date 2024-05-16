@@ -19,13 +19,10 @@ export class PrincipalPage implements OnInit {
   productos: Producto [] = [];
   loading: boolean= false;
   ngOnInit() {
+    
   }
 
-  //Cerrar Sesion
 
-  signOut(){
-    this.firebaseSvc.signOut();
-  }
 
   //Para refrescar la página al deslizar hacia abajo
 
@@ -124,14 +121,10 @@ export class PrincipalPage implements OnInit {
 
     this.loading = true;
 
-    let query = [ //Para que muestre los productos en orden descendente según cantidad de unidades
-      orderBy('unidades', 'desc'),
-    // where('unidades', '>', '5') En caso de querer hacer una consulta compuesta, ejemplo solo mostrar los productos que tengan más de 5 unidades
-    ] 
-      
-    ;
+    let query =( orderBy('unidades', 'desc'));  //Para que muestre los productos en orden descendente según cantidad de unidades  
+    
 
-    let sub = this.firebaseSvc.getCollectionData(path).subscribe({
+    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
       next: (res: any) => {
         console.log(res);
         this.productos = res;
@@ -145,7 +138,5 @@ export class PrincipalPage implements OnInit {
   ionViewWillEnter() { //Sirve para ejecutar una funcion cada vez que el usuario entra a la página
     this.getProducts();
   }
-
-
 
 }

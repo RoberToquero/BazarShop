@@ -63,10 +63,10 @@ export class FirebaseService {
 
  getCollectionData(path: string, collectionQuery?:any){
   const ref = collection(getFirestore(), path);
-  return collectionData(query(ref, ...collectionQuery), {idField: 'id'});
+  return collectionData(query(ref,collectionQuery), {idField: 'id'});
  }
 
-  //Setear un documento es decir crearlo si no existo y cambiarlo si es que existe
+  //Setear un documento es decir crearlo si no existe y cambiarlo si es que existe
  setDocument(path: string, data: any){
    return setDoc(doc(getFirestore(), path), data);
  }
