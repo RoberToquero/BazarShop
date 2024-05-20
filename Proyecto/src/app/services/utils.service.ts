@@ -92,4 +92,8 @@ export class UtilsService {
   
     await alert.present();
   }
+
+  removeFromLocal(key: string) {
+    localStorage.removeItem(key);
+  }
 }

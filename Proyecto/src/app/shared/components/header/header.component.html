@@ -11,7 +11,14 @@
       <ion-button (click)="cerrarModal()"  *ngIf="isModal">
         <ion-icon name="close-circle-outline"></ion-icon>
       </ion-button>
+
+      <ion-menu-button *ngIf="showMenu" menu="menu-content"></ion-menu-button>
+
     </ion-buttons>
+
+   
+     
+    
 
     <ion-title class="text-center">
       <strong>{{title}}</strong>

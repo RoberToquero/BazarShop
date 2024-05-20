@@ -14,6 +14,7 @@ import { UtilsService } from 'src/app/services/utils.service';
 export class AnadirActualizarProductosComponent  implements OnInit {
 
   @Input() product: Producto;
+  @Input() user: User;
   
   form = new FormGroup({
     id: new FormControl(''),
@@ -33,18 +34,26 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
   utilsSvc = inject(UtilsService);
 
-  user = {} as User;
+  
 
 
 
   ngOnInit() {
     this.user = this.utilsSvc.getFromLocal('user');
+<<<<<<< HEAD
     console.log('User from local storage:', this.user);
     this.user = this.utilsSvc.getFromLocal('user');
+=======
+    
+>>>>>>> 013c81f338be7c071244dfdc84392af8fca04a80
     if (!this.user || !this.user.uid) {
       console.error('User UID is not available');
       return;
     }
+    console.log('User UID:', this.user.uid);
+    console.log('User Name:', this.user.nombre);
+    console.log('User Email:', this.user.email);
+    
     if(this.product) this.form.setValue(this.product);
   }
 
@@ -145,7 +154,7 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
       
 
-      delete this.form.value.id //Se borra el ID porque se realiza en la función de actualizar pero no para la de agregar 
+      // delete this.form.value.id //Se borra el ID porque se realiza en la función de actualizar pero no para la de agregar 
 
       this.firebaseSvc.updateDocument(path,this.form.value). then(async res =>{
 

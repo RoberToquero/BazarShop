@@ -43,6 +43,10 @@ export class RegistroPage implements OnInit {
         const uid = res.user.uid;
         this.form.controls.uid.setValue(uid); // Colocando el valor uid en el formulario
 
+        console.log('User UID:', uid);
+        console.log('User Email:', this.form.value.email);
+        console.log('User Nombre:', this.form.value.nombre);
+
         // Actualizando el perfil del usuario
         await this.firebaseSvc.updateUser(this.form.value.nombre);
 
@@ -77,10 +81,10 @@ export class RegistroPage implements OnInit {
   async setUserInfo(uid: string) {
     if (this.form.valid) {
       const userData = {
-        id: uid,
+        uid: uid,
         email: this.form.value.email,
         nombre: this.form.value.nombre,
-        // No guardar la contraseña en la base de datos por seguridad
+        // No guardo la contraseña en la base de datos por seguridad
       };
 
       const path = `users/${uid}`; // Lugar donde se almacenará la info de los usuarios
