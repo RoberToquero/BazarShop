@@ -51,7 +51,7 @@ export class PrincipalPage implements OnInit {
     if(success) this.getProducts();
   }
 
-  //
+  //Confirmacion de borrado de documento
   async confirmDeleteProduct(product:Producto) {
    this.utilsSvc.presentAlert({
       header: 'Eliminar Producto',
@@ -72,7 +72,7 @@ export class PrincipalPage implements OnInit {
 
   }
 
-  //Borrar un documento
+  //Borrar un Producto
 
   async deleteProduct(producto: Producto){
 

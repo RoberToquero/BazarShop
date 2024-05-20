@@ -1,7 +1,16 @@
-body{
-    width: 100%;
-    height: 100%;
-  }
+swiper-container {
+width: 100%;
+height: 75%;
+}
+ swiper-slide{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+ }
+
   .d-flex-center {
     display: flex;
     flex-direction: column;

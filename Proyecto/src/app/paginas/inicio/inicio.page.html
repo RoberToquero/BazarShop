@@ -1,12 +1,14 @@
 <app-header title="Inicio"></app-header>
 <ion-content>
-  <body>
-    <ion-list>
-      <ion-item *ngFor="let inicio of arr">
-        <ion-label (click)="pulsarNombre(inicio)">{{inicio}}</ion-label>
-      </ion-item>
-    </ion-list>
-    
+
+  <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
+    <swiper-slide>Slide 1</swiper-slide>
+    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+  </swiper-container>
+
+  <br>
+  
     <div class="d-flex-center">
 
         <ion-button  expand="block" mode="ios" [routerLink]="['/login']"  color="secondary">
@@ -21,7 +23,7 @@
   
     </div>
 
-  </body>
+ 
 </ion-content>
   
 

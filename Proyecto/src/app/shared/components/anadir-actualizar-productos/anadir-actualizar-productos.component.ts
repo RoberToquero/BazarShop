@@ -39,6 +39,8 @@ export class AnadirActualizarProductosComponent  implements OnInit {
 
   ngOnInit() {
     this.user = this.utilsSvc.getFromLocal('user');
+    console.log('User from local storage:', this.user);
+    this.user = this.utilsSvc.getFromLocal('user');
     if (!this.user || !this.user.uid) {
       console.error('User UID is not available');
       return;

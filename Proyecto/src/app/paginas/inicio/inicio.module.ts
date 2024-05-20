@@ -8,6 +8,7 @@ import { InicioPageRoutingModule } from './inicio-routing.module';
 
 import { InicioPage } from './inicio.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -15,8 +16,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     IonicModule,
     InicioPageRoutingModule,
-    SharedModule
+    SharedModule,
+   
   ],
-  declarations: [InicioPage]
+  declarations: [InicioPage],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
 })
 export class InicioPageModule {}
