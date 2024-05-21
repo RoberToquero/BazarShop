@@ -29,71 +29,62 @@ export class UserProfileComponent  implements OnInit {
 
   utilsSvc = inject(UtilsService);
 
-  user = {} as User;
+  usuario = {} as User;
 
   ngOnInit() {
-    this.user = this.utilsSvc.getFromLocal('user');
+    this.usuario = this.utilsSvc.getFromLocal('user');
 
   }
 
-
-  async loadUserData() {
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      this.user.uid = currentUser.uid;
-      this.user.nombre = currentUser.displayName || '';
-      this.user.email = currentUser.email || '';
-
-      this.form.patchValue(this.user);
-    }
+  user(): User {
+    return this.usuario;
   }
 
   submit(){
     if (this.form.valid) {
-      this.updateProfile();
+      this.updateUser();
     }
   }
 
 
-  async updateProfile() {
-    let path = `users/${this.user.uid}`
+  async updateUser() {
     const loading = await this.utilsSvc.loading();
     await loading.present();
   
-    delete this.form.value.uid, //Se borra el ID porque se realiza en la función de actualizar pero no para la de agregar 
-   
-      this.firebaseSvc.updateDocument(path,this.form.value). then(async res =>{
+    try {
+      if (this.usuario) { // Verificar si usuario está definido y tiene un valor
+        await this.firebaseSvc.actualizarUsuario(
+          this.usuario.uid,
+          this.usuario.nombre,
+          this.usuario.email
+        );
   
-        this.utilsSvc.dismissModal({ success: true});
-
-        this.user.nombre = this.form.value.nombre;
-        this.user.email = this.form.value.email;
-
-  
-      this.utilsSvc.presentToast({
-        message: 'Usuario actualizado correctamente',
-        duration: 2500,
-        color: 'success',
-        position: 'middle',
-        icon: 'checkmark-circle-outline'
-      })
-
-    }).catch (error=>
-      {console.log(error);
         this.utilsSvc.presentToast({
-        message: "Error",
+          message: 'Usuario actualizado correctamente',
+          duration: 2500,
+          color: 'success',
+          position: 'middle',
+          icon: 'checkmark-circle-outline'
+        });
+  
+        // Actualiza los datos en local storage si es necesario
+        this.utilsSvc.saveInLocal('user', this.usuario);
+      } else {
+        throw new Error('El usuario no está definido o es null.');
+      }
+    } catch (error) {
+      console.error('Error al actualizar usuario:', error);
+      this.utilsSvc.presentToast({
+        message: 'Error al actualizar usuario. Inténtalo de nuevo.',
         duration: 3500,
         color: 'warning',
         position: 'middle',
         icon: 'alert-circle-outline'
-      })
-    }).finally (()=>
-      {loading.dismiss();
-    });
+      });
+    } finally {
+      loading.dismiss();
+    }
   }
-
-
 
 }
 

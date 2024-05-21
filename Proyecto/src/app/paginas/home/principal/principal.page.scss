@@ -6,3 +6,14 @@ ion-card{
 ion-content{
   --padding-bottom:70px;
 }
+
+h3.style{
+  font-family: 'Arial', sans-serif; /* Puedes elegir la fuente que prefieras */
+  font-style: italic;
+  font-weight: bold; /* Para hacer el texto más llamativo */
+  border: 10px solid #000; /* Color del borde */
+  padding: 10px; /* Espacio entre el texto y el borde */
+  display: inline-block; /* Para que el borde se ajuste al tamaño del texto */
+  margin: 10px 0; /* Margen para separar los elementos */
+  background-color: #1094ec; /* Color de fondo opcional para resaltar el texto */
+}

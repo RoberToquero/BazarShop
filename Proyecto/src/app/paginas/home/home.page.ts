@@ -14,6 +14,8 @@ export class HomePage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
+   usuario = {} as User;
+
   paginas = [
     {titulo: 'Home', url: '/home/principal', icon:'home-outline'},
     {titulo: 'Perfil', url: '/home/perfil', icon:'person-outline'}

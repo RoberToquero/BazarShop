@@ -8,10 +8,9 @@ ion-avatar{
     position: relative;
     bottom: 25px;
     margin-top: 50px;
+    margin-bottom: 20px;
 }
-h2{
-    margin-bottom: 0;
-}
+
 ion-item{
     --padding-top:15px;
 }
@@ -20,3 +19,15 @@ ion-item{
     font-size:140px;
     opacity:30%;
 }
+
+h3.style{
+    font-family: 'Arial', sans-serif; 
+    font-style: italic;
+    font-weight: bold; 
+    border: 1px solid var(--ion-color-primary); 
+    padding: 5px; 
+    display: inline-block; 
+    margin: 10px 0; 
+    border-radius: 15px; 
+}
+    

@@ -6,6 +6,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { UserProfileComponent } from 'src/app/shared/components/user-profile/user-profile.component';
 
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -23,7 +24,7 @@ export class PerfilPage implements OnInit {
   usuario = {} as User;
   loading: boolean;
 
-
+ 
 
   ngOnInit(): void {
     this.checkAppMode();
@@ -111,15 +112,17 @@ export class PerfilPage implements OnInit {
       }
     })
 
+  
+  }
+  ionViewWillEnter() {
+    this.getCurrentUser();
   }
 
   getCurrentUser() {
     return this.usuario;
   }
 
-  ionViewWillEnter() {
-    this.getUser();
-  }
+
 
   async updateUser(user?: User){
     let success = await this.utilsSvc.presentModal({
@@ -137,6 +140,56 @@ export class PerfilPage implements OnInit {
     }, 2000);
   }
 
+    //Confirmación de borrado de usuario
+  async confirmDeleteUser(user: User) {
+    this.utilsSvc.presentAlert({
+      header: 'Eliminar Usuario',
+      message: '¿Deseas eliminar este usuario?',
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Sí, eliminar',
+          handler: () => {
+            this.deleteUser(user);
+          }
+        }
+      ]
+    });
+  }
+  //Borrar un usuario
+  async deleteUser(user: User) {
+    const loading = await this.utilsSvc.loading();
+    await loading.present();
 
+    try {
+      await this.firebaseSvc.deleteUser(user.uid);
 
+      this.utilsSvc.presentToast({
+        message: 'Usuario eliminado correctamente',
+        duration: 2500,
+        color: 'success',
+        position: 'middle',
+        icon: 'checkmark-circle-outline'
+      });
+
+      // Cerrar sesión después de eliminar el usuario
+      await this.firebaseSvc.auth.signOut();
+      this.utilsSvc.routerLink('/login'); // Redirigir al login o a otra página adecuada
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error);
+      this.utilsSvc.presentToast({
+        message: 'Error al eliminar usuario. Inténtalo de nuevo.',
+        duration: 3500,
+        color: 'warning',
+        position: 'middle',
+        icon: 'alert-circle-outline'
+      });
+    } finally {
+      loading.dismiss();
+    }
+  }
 }
+      

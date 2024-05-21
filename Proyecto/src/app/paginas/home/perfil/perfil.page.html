@@ -14,17 +14,20 @@
     <ion-icon  name="camera-outline"></ion-icon>
   </ion-button>
 
-  <h2>{{getCurrentUser().nombre}}</h2>
-  <h2>{{getCurrentUser().email}}</h2>
+  <br>
+
+  <h3 class="style">{{user().nombre}}</h3>
+  <br>
+  <h3 class="style">{{user().email}}</h3>
   
   <br>
 
   <ion-item button detail (click)="updateUser()">
     <ion-icon color="secondary" slot="start" name="person-outline"></ion-icon>
-    <ion-label>Editar Perfil</ion-label>
+    <ion-label>Editar usuario</ion-label>
   </ion-item>
 
-  <ion-item button detail>
+  <ion-item button detail (click)="confirmDeleteUser(user())">
     <ion-icon color="secondary" slot="start" name="trash-outline"></ion-icon>
     <ion-label>Eliminar cuenta</ion-label>
   </ion-item>

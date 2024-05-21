@@ -1,13 +1,15 @@
 //AQUÍ ES DONDE SE IMPORTA TODO LO QUE TENGA QUE VER CON FIREBASE
 import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,updateProfile, sendPasswordResetEmail, updateEmail, sendEmailVerification  } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail, updateEmail, sendEmailVerification } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {getFirestore, setDoc, doc,getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc, docData} from '@angular/fire/firestore';
+import { getFirestore, setDoc, doc, getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc, docData } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref, getDownloadURL, deleteObject } from 'firebase/storage';
+import * as bcrypt from 'bcryptjs';
+
 
 
 @Injectable({
@@ -22,116 +24,163 @@ export class FirebaseService {
 
   // AUTENTICACIONES
 
-  getAuth(){
+  getAuth() {
     return getAuth();
   }
 
-// FUNCION PARA LOGEARSE Y ACCEDER
+  // FUNCION PARA LOGEARSE Y ACCEDER
 
- signIn(user: User){
-  return signInWithEmailAndPassword(getAuth(), user.email, user.password);
- }
+  signIn(user: User) {
+    return signInWithEmailAndPassword(getAuth(), user.email, user.password);
+  }
 
- //FUNCION PARA REGISTRO
- signUp(user: User){
-  return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
- }
+  //FUNCION PARA REGISTRO
+  signUp(user: User) {
+    return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
+  }
 
- //FUNCION PARA ACTUALIZAR USUARIO
+  //FUNCION PARA ACTUALIZAR USUARIO
 
- updateUser(displayName:string){
-  return updateProfile(getAuth().currentUser, {displayName})
- }
+  updateUser(displayName: string) {
+    return updateProfile(getAuth().currentUser, { displayName })
+  }
 
- 
+  updateUserEmail(newEmail: string) {
+    return updateEmail(getAuth().currentUser, newEmail);
+  }
+
+  sendVerificationEmail() {
+    const user = getAuth().currentUser;
+    if (user) {
+      return sendEmailVerification(user);
+    } else {
+      throw new Error('No user is currently signed in.');
+    }
+  }
+
+  // Método para actualizar un usuario en Firestore y Firebase Authentication
+  async actualizarUsuario(uid: string, displayName: string, email: string): Promise<void> {
+    const userPath = `users/${uid}`;
+
+    // Actualizar usuario en Firestore
+    await this.firestore.doc(userPath).update({ displayName, email });
+
+    // Obtener el usuario actual de Firebase Authentication
+    const user = await this.auth.currentUser;
+    if (user) {
+      await updateProfile(user, { displayName });
+      await updateEmail(user, email);
+    }
+
+  }
+
+  // Método para eliminar un usuario de Firestore y Firebase Authentication
+  async deleteUser(uid: string): Promise<void> {
+    const userPath = `users/${uid}`;
+
+    // Eliminar usuario de Firestore
+    await this.firestore.doc(userPath).delete();
+
+    // Eliminar usuario de Firebase Authentication
+    const user = await this.auth.currentUser;
+    if (user) {
+      await user.delete();
+    }
+  }
 
 
 
- //Enviar Email para restablecer contraseña
-
- recuperarPassword(email: string){
-  return sendPasswordResetEmail(getAuth(), email);
- }
 
 
- //CERRAR SESIÓN
+  //Enviar Email para restablecer contraseña
+
+  recuperarPassword(email: string) {
+    return sendPasswordResetEmail(getAuth(), email);
+  }
 
 
-
- signOut(){
-  getAuth().signOut();
-  localStorage.removeItem('user');
-  this.utilsSve.removeFromLocal('user');
-  this.utilsSve.routerLink('/login');
- }
+  //CERRAR SESIÓN
 
 
 
+  signOut() {
+    getAuth().signOut();
+    localStorage.removeItem('user');
+    this.utilsSve.removeFromLocal('user');
+    this.utilsSve.routerLink('/login');
+  }
 
- // BASE DE DATOS
 
- //Obtener documentos de una colección
 
- getCollectionData(path: string, collectionQuery?:any){
-  const ref = collection(getFirestore(), path);
-  return collectionData(query(ref,collectionQuery), {idField: 'id'});
- }
 
- // Obtener un documento específico
- getDocumentData(path: string) {
-  const docRef = doc(getFirestore(), path);
-  return docData(docRef, { idField: 'id' });
-}
+  // BASE DE DATOS
+
+  //Obtener documentos de una colección
+
+  getCollectionData(path: string, collectionQuery?: any) {
+    const ref = collection(getFirestore(), path);
+    return collectionData(query(ref, collectionQuery), { idField: 'id' });
+  }
+
+  // Obtener un documento específico
+  getDocumentData(path: string) {
+    const docRef = doc(getFirestore(), path);
+    return docData(docRef, { idField: 'id' });
+  }
 
   //Setear un documento es decir crearlo si no existe y cambiarlo si es que existe
- setDocument(path: string, data: any){
-   return setDoc(doc(getFirestore(), path), data);
- }
+  async setDocument(path: string, data: any) {
+    if (data.password) {
+      // Hashear la contraseña si existe
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+    return setDoc(doc(getFirestore(), path), data);
+  }
 
- //Actualizar documento
+  //Actualizar documento
 
- updateDocument(path: string, data: any){
-  return updateDoc(doc(getFirestore(), path), data);
-}
+  updateDocument(path: string, data: any) {
+    return updateDoc(doc(getFirestore(), path), data);
+  }
 
-//Borrar un documento
+  //Borrar un documento
 
-deleteDocument(path: string){
-  return deleteDoc(doc(getFirestore(), path));
-}
+  deleteDocument(path: string) {
+    return deleteDoc(doc(getFirestore(), path));
+  }
 
- //Obtener un registro
+  //Obtener un registro
 
- async getDocument(path: string){
-  return (await getDoc(doc(getFirestore(), path))).data();
- }
+  async getDocument(path: string) {
+    return (await getDoc(doc(getFirestore(), path))).data();
+  }
 
- // Añadir documento
+  // Añadir documento
 
- addDocument(path: string, data: any){
-  return addDoc(collection(getFirestore(), path), data);
-}
+  addDocument(path: string, data: any) {
+    return addDoc(collection(getFirestore(), path), data);
+  }
 
-// Almacenamiento en Firebase
+  // Almacenamiento en Firebase
 
   //Subir Imagen
 
-  async uploadImage(path:string, data_url:string){
-    return uploadString(ref(getStorage(), path), data_url, 'data_url').then(() =>{
+  async uploadImage(path: string, data_url: string) {
+    return uploadString(ref(getStorage(), path), data_url, 'data_url').then(() => {
       return getDownloadURL(ref(getStorage(), path))
     })
   }
 
   //Obtener ruta de la imagen con su URL
 
-  async getFilePath(url:string){
+  async getFilePath(url: string) {
     return ref(getStorage(), url).fullPath
   }
 
   // Eliminar archivos de la base de datos
 
-  deleteFile(path: string){
-   return deleteObject(ref(getStorage(),path));
+  deleteFile(path: string) {
+    return deleteObject(ref(getStorage(), path));
   }
 
 }

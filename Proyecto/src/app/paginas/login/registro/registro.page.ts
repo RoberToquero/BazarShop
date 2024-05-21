@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
+
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
@@ -84,7 +85,7 @@ export class RegistroPage implements OnInit {
         uid: uid,
         email: this.form.value.email,
         nombre: this.form.value.nombre,
-        // No guardo la contraseña en la base de datos por seguridad
+        password: this.form.value.password
       };
 
       const path = `users/${uid}`; // Lugar donde se almacenará la info de los usuarios
