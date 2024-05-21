@@ -1,18 +1,10 @@
-<<<<<<< HEAD
-import { Component, OnInit, inject } from '@angular/core';
-import { FirebaseService } from 'src/app/services/firebase.service';
-import { User } from 'firebase/auth';
-import { UtilsService } from 'src/app/services/utils.service';
-import { UserProfileComponent } from 'src/app/shared/components/user-profile/user-profile.component';
-=======
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Producto } from 'src/app/models/producto.model';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
->>>>>>> 013c81f338be7c071244dfdc84392af8fca04a80
+import { UserProfileComponent } from 'src/app/shared/components/user-profile/user-profile.component';
 
 @Component({
   selector: 'app-perfil',
@@ -21,28 +13,29 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class PerfilPage implements OnInit {
 
-<<<<<<< HEAD
-  firebaseSvc = inject(FirebaseService);
-  utilsSvc = inject(UtilsService);
-=======
   darkMode = false;
->>>>>>> 013c81f338be7c071244dfdc84392af8fca04a80
 
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
+
+
+
+  usuario = {} as User;
+  loading: boolean;
 
 
 
   ngOnInit(): void {
     this.checkAppMode();
-  }
+    this.usuario = this.utilsSvc.getFromLocal('user');
 
-<<<<<<< HEAD
-  async updateProduct(){
- 
+    console.log('User UID:', this.usuario.uid);
+    console.log('User Email:', this.usuario.email);
+    
+    this.getUser();
   }
+  
 
-=======
   checkAppMode(){
     const checkIsDarkMode = localStorage.getItem('darkModeActivated');
     checkIsDarkMode == 'true'
@@ -104,6 +97,46 @@ export class PerfilPage implements OnInit {
     })
   }
 
+  getUser(){
+    let path = `users/${this.usuario.uid}`;
+    this.loading = true;
 
->>>>>>> 013c81f338be7c071244dfdc84392af8fca04a80
+    let sub = this.firebaseSvc.getDocumentData(path).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.usuario = res;
+
+        this.loading = false;
+        sub.unsubscribe(); //Para mantener un control de cuantas veces se aceptan peticiones hay que dessuscribirse cada vez que se obtenga la respuesta
+      }
+    })
+
+  }
+
+  getCurrentUser() {
+    return this.usuario;
+  }
+
+  ionViewWillEnter() {
+    this.getUser();
+  }
+
+  async updateUser(user?: User){
+    let success = await this.utilsSvc.presentModal({
+      component: UserProfileComponent,
+      cssClass:'User-Profile-modal',
+      componentProps: {user: this.usuario}
+    })
+    if(success) this.getUser;
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.getUser()
+      event.target.complete();
+    }, 2000);
+  }
+
+
+
 }

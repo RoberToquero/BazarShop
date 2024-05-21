@@ -6,6 +6,7 @@ import { LogoComponent } from './components/logo/logo.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnadirActualizarProductosComponent } from './components/anadir-actualizar-productos/anadir-actualizar-productos.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 
@@ -14,14 +15,16 @@ import { AnadirActualizarProductosComponent } from './components/anadir-actualiz
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,
-    AnadirActualizarProductosComponent
+    AnadirActualizarProductosComponent,
+    UserProfileComponent
   ],
   exports:[
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,
     ReactiveFormsModule,
-    AnadirActualizarProductosComponent
+    AnadirActualizarProductosComponent,
+    UserProfileComponent
   ],
   imports: [
     CommonModule,

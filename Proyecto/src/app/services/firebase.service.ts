@@ -1,13 +1,14 @@
 //AQUÍ ES DONDE SE IMPORTA TODO LO QUE TENGA QUE VER CON FIREBASE
 import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,updateProfile, sendPasswordResetEmail } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,updateProfile, sendPasswordResetEmail, updateEmail, sendEmailVerification  } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {getFirestore, setDoc, doc,getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc} from '@angular/fire/firestore';
+import {getFirestore, setDoc, doc,getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc, docData} from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref, getDownloadURL, deleteObject } from 'firebase/storage';
+
 
 @Injectable({
   providedIn: 'root'
@@ -42,11 +43,16 @@ export class FirebaseService {
   return updateProfile(getAuth().currentUser, {displayName})
  }
 
+ 
+
+
+
  //Enviar Email para restablecer contraseña
 
  recuperarPassword(email: string){
   return sendPasswordResetEmail(getAuth(), email);
  }
+
 
  //CERRAR SESIÓN
 
@@ -60,6 +66,8 @@ export class FirebaseService {
  }
 
 
+
+
  // BASE DE DATOS
 
  //Obtener documentos de una colección
@@ -68,6 +76,12 @@ export class FirebaseService {
   const ref = collection(getFirestore(), path);
   return collectionData(query(ref,collectionQuery), {idField: 'id'});
  }
+
+ // Obtener un documento específico
+ getDocumentData(path: string) {
+  const docRef = doc(getFirestore(), path);
+  return docData(docRef, { idField: 'id' });
+}
 
   //Setear un documento es decir crearlo si no existe y cambiarlo si es que existe
  setDocument(path: string, data: any){

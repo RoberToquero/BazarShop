@@ -1,5 +1,10 @@
 <app-header [showMenu]="true" title="Perfil"></app-header>
 <ion-content class="ion-padding-top ion-text-center">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-avatar>
     <img *ngIf="user()?.imagen" [src]="user()?.imagen" />
     <ion-icon *ngIf="!user()?.imagen" class="empty-icon" name="person-circle-outline"></ion-icon>
@@ -9,11 +14,12 @@
     <ion-icon  name="camera-outline"></ion-icon>
   </ion-button>
 
-  <h2>{{user().nombre}}</h2>
+  <h2>{{getCurrentUser().nombre}}</h2>
+  <h2>{{getCurrentUser().email}}</h2>
   
   <br>
 
-  <ion-item button detail>
+  <ion-item button detail (click)="updateUser()">
     <ion-icon color="secondary" slot="start" name="person-outline"></ion-icon>
     <ion-label>Editar Perfil</ion-label>
   </ion-item>
