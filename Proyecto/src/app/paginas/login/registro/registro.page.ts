@@ -85,7 +85,7 @@ export class RegistroPage implements OnInit {
         uid: uid,
         email: this.form.value.email,
         nombre: this.form.value.nombre,
-        password: this.form.value.password
+        password: this.form.value.password 
       };
 
       const path = `users/${uid}`; // Lugar donde se almacenará la info de los usuarios

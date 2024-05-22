@@ -30,7 +30,7 @@
     "@capacitor/status-bar": "6.0.0",
     "@ionic/angular": "^8.0.0",
     "@ionic/pwa-elements": "^3.2.2",
-    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.2.0",
     "firebase": "^10.11.1",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",

@@ -7,7 +7,7 @@
       <img *ngIf="user()?.imagen" [src]="user()?.imagen" />
       <ion-icon *ngIf="!user()?.imagen" class="empty-icon" name="person-circle-outline"></ion-icon>
     </ion-avatar>
-    <h4>{{user()?.nombre}}</h4>
+    <h4>{{getCurrentUser().nombre}}</h4>
     <ion-menu-toggle auto-hide="false" *ngFor="let p of paginas">
       <ion-item [ngClass]="{'active': currentPath == p.url}" [routerLink]="p.url" routerDirection="root" detail>
         <ion-icon slot="start" [name]="p.icon"></ion-icon>

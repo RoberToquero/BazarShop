@@ -40,4 +40,12 @@ export class HomePage implements OnInit {
       this.firebaseSvc.signOut();
     }
 
+    ionViewWillEnter() {
+      this.getCurrentUser();
+    }
+  
+    getCurrentUser() {
+      return this.utilsSvc.getFromLocal('user');
+    }
+
 }

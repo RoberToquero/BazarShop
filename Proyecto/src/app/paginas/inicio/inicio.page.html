@@ -1,15 +1,47 @@
 <app-header title="Inicio"></app-header>
+
 <ion-content>
-
   <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
-    <swiper-slide>Slide 1</swiper-slide>
+    <!-- Pantalla 1 -->
+    <swiper-slide>
+      
+      <div class="bg_animate">
+        <app-logo></app-logo>
+          <br>
+          <br>
+          <div class="contenedor">
+            <h1>Organiza tus productos</h1>
+          </div>
+        
+        <section class="banner">
+          <section class="banner_title">
+            <h2>Crea tu <br> inventario</h2>
+          </section>
+          <div class="banner_img">
+            <img src="../../../assets/imagenes/logo.png" alt="logo">
+          </div>
+        </section>
+        <div class="burbujas">
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+          <div class="burbuja"></div>
+        </div>
+      </div>
+    </swiper-slide>
+    <!-- Pantalla 2 -->
     <swiper-slide>Slide 2</swiper-slide>
-    <swiper-slide>Slide 3</swiper-slide>
-  </swiper-container>
-
-  <br>
-  
-    <div class="d-flex-center">
+    <!-- Pantalla 3 -->
+    <swiper-slide>
+      <app-logo></app-logo>
+      <ion-icon slot="start" name=""></ion-icon>
+      <div class="d-flex-center">
 
         <ion-button  expand="block" mode="ios" [routerLink]="['/login']"  color="secondary">
           Entrar
@@ -22,6 +54,12 @@
     
   
     </div>
+    </swiper-slide>
+  </swiper-container>
+
+  <br>
+  
+   
 
  
 </ion-content>

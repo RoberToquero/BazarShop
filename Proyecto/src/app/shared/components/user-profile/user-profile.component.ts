@@ -18,7 +18,7 @@ export class UserProfileComponent  implements OnInit {
   form = new FormGroup({
     uid: new FormControl(''),
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    email: new FormControl('',[Validators.required,,Validators.email])
+    password: new FormControl('', [Validators.required])
   })
 
   //INYECTANDO EL SERVICIO DE FIREBASE PARA RECOGER DATOS 
@@ -41,50 +41,49 @@ export class UserProfileComponent  implements OnInit {
   }
 
   submit(){
-    if (this.form.valid) {
-      this.updateUser();
-    }
+    
+      this.updateProfile();
+    
   }
 
 
-  async updateUser() {
+  async updateProfile() {
+    let path = `users/${this.usuario.uid}`
     const loading = await this.utilsSvc.loading();
     await loading.present();
   
-    try {
-      if (this.usuario) { // Verificar si usuario está definido y tiene un valor
-        await this.firebaseSvc.actualizarUsuario(
-          this.usuario.uid,
-          this.usuario.nombre,
-          this.usuario.email
-        );
+    delete this.form.value.uid, //Se borra el ID porque se realiza en la función de actualizar pero no para la de agregar 
+   
+      this.firebaseSvc.updateDocument(path,this.form.value). then(async res =>{
   
-        this.utilsSvc.presentToast({
-          message: 'Usuario actualizado correctamente',
-          duration: 2500,
-          color: 'success',
-          position: 'middle',
-          icon: 'checkmark-circle-outline'
-        });
+        this.utilsSvc.dismissModal({ success: true});
+
+        this.usuario.nombre = this.form.value.nombre;
+        this.usuario.password = this.form.value.password;
+
   
-        // Actualiza los datos en local storage si es necesario
-        this.utilsSvc.saveInLocal('user', this.usuario);
-      } else {
-        throw new Error('El usuario no está definido o es null.');
-      }
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error);
       this.utilsSvc.presentToast({
-        message: 'Error al actualizar usuario. Inténtalo de nuevo.',
+        message: 'Usuario actualizado correctamente',
+        duration: 2500,
+        color: 'success',
+        position: 'middle',
+        icon: 'checkmark-circle-outline'
+      })
+
+    }).catch (error=>
+      {console.log(error);
+        this.utilsSvc.presentToast({
+        message: "Error",
         duration: 3500,
         color: 'warning',
         position: 'middle',
         icon: 'alert-circle-outline'
-      });
-    } finally {
-      loading.dismiss();
-    }
-  }
+      })
+    }).finally (()=>
+      {loading.dismiss();
+    });
+  } 
+  
 
 }
 

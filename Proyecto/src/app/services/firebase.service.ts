@@ -1,14 +1,14 @@
 //AQUÍ ES DONDE SE IMPORTA TODO LO QUE TENGA QUE VER CON FIREBASE
 import { Injectable, inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail, updateEmail, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail, updateEmail, sendEmailVerification, updatePassword } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc, addDoc, collection, collectionData, query, updateDoc, deleteDoc, docData } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString, ref, getDownloadURL, deleteObject } from 'firebase/storage';
-import * as bcrypt from 'bcryptjs';
+
 
 
 
@@ -45,34 +45,7 @@ export class FirebaseService {
     return updateProfile(getAuth().currentUser, { displayName })
   }
 
-  updateUserEmail(newEmail: string) {
-    return updateEmail(getAuth().currentUser, newEmail);
-  }
 
-  sendVerificationEmail() {
-    const user = getAuth().currentUser;
-    if (user) {
-      return sendEmailVerification(user);
-    } else {
-      throw new Error('No user is currently signed in.');
-    }
-  }
-
-  // Método para actualizar un usuario en Firestore y Firebase Authentication
-  async actualizarUsuario(uid: string, displayName: string, email: string): Promise<void> {
-    const userPath = `users/${uid}`;
-
-    // Actualizar usuario en Firestore
-    await this.firestore.doc(userPath).update({ displayName, email });
-
-    // Obtener el usuario actual de Firebase Authentication
-    const user = await this.auth.currentUser;
-    if (user) {
-      await updateProfile(user, { displayName });
-      await updateEmail(user, email);
-    }
-
-  }
 
   // Método para eliminar un usuario de Firestore y Firebase Authentication
   async deleteUser(uid: string): Promise<void> {
@@ -130,10 +103,6 @@ export class FirebaseService {
 
   //Setear un documento es decir crearlo si no existe y cambiarlo si es que existe
   async setDocument(path: string, data: any) {
-    if (data.password) {
-      // Hashear la contraseña si existe
-      data.password = await bcrypt.hash(data.password, 10);
-    }
     return setDoc(doc(getFirestore(), path), data);
   }
 

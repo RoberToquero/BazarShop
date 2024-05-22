@@ -1,17 +1,179 @@
 swiper-container {
 width: 100%;
-height: 75%;
+height: 100%;
 }
  swiper-slide{
   display:flex;
-  flex-direction:column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', 'Sans serif';
  }
 
-  .d-flex-center {
+  .contenedor{
+    width: 90%;
+    max-width: 1200ppx;
+    margin: auto;
+    padding-top: 10%;
+    padding-bottom: 30%;
+  }
+  .bg_animate{
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to right, #1d72a6, #b9509d);
+    position: relative;
+    overflow: hidden;
+  }
+  .contenedor h1{
+    color: #fff;
+    font-family: 'Gagalin';
+    font-size: 40px;
+  }
+  .banner{
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5%;
+  }
+
+  .banner_title h2{
+    color: #fff;
+    font-size:30px;
+    font-weight: 100;
+    margin-bottom: 20px;
+  }
+
+  .banner_img{
+    animation: movimiento 2.5s linear infinite;
+  }
+
+  .banner_img img{
+    width:600px;
+    display: block;
+  }
+  //Burbujas
+  
+  .burbuja{
+    border-radius: 50%;
+    background: #fff;
+    opacity: .3;
+
+    position: absolute;
+    bottom: -150;
+   
+    animation: burbujas 3s linear infinite;
+  }
+
+  .burbuja:nth-child(1){
+    width: 70px;
+    height: 70px;
+    left: 5%;
+    animation-duration: 3s;
+    animation-delay: 3s;
+
+  }
+
+  .burbuja:nth-child(2){
+    width: 90px;
+    height: 90px;
+    left: 35%;
+    animation-duration: 3s;
+    animation-delay: 5s;
+
+  }
+  .burbuja:nth-child(3){
+    width: 20px;
+    height: 20px;
+    left: 15%;
+    animation-duration: 1.5s;
+    animation-delay: 7s;
+
+  }
+  .burbuja:nth-child(4){
+    width: 50px;
+    height: 50px;
+    left: 90%;
+    animation-duration: 6s;
+    animation-delay: 3s;
+
+  }
+
+  .burbuja:nth-child(5){
+    width: 40px;
+    height: 40px;
+    left: 50%;
+    animation-duration: 4s;
+    animation-delay: 5s;
+
+  }
+
+  .burbuja:nth-child(6){
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    animation-duration: 3s;
+    animation-delay: 1s;
+
+  }
+  .burbuja:nth-child(7){
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    animation-duration: 4s;
+    animation-delay: 5s;
+
+  }
+  .burbuja:nth-child(8){
+    width: 100px;
+    height: 100px;
+    left: 52%;
+    animation-duration: 5s;
+    animation-delay: 5s;
+
+  }
+  .burbuja:nth-child(9){
+    width: 65px;
+    height: 65px;
+    left: 51%;
+    animation-duration: 3s;
+    animation-delay: 2s;
+
+  }
+  .burbuja:nth-child(10){
+    width: 40px;
+    height: 40px;
+    left: 35%;
+    animation-duration: 3s;
+    animation-delay: 4s;
+
+  }
+
+  @keyframes burbujas{
+      0%{
+        bottom: 0;
+        opacity: 0;
+      }
+      30%{
+          transform: translateX(30px);
+      }
+      50%{
+        opacity: .4;
+      }
+      100%{
+        bottom: 100vh;
+        opacity: 0;
+      }
+    }
+
+    @keyframes movimiento{
+      0%{
+        transform: translateY(0);
+      }
+      50%{
+        transform: translateY(30px);
+      }
+      100%{
+        transform: translateY(0);
+      }
   }
