@@ -1,22 +1,19 @@
-swiper-container {
-width: 100%;
-height: 100%;
-}
- swiper-slide{
-  display:flex;
-  align-items: center;
-  margin: 0;
+ion-content{
+  background: linear-gradient(to right, #1d72a6, #b9509d);
+  height: 100%;
   padding: 0;
-  box-sizing: border-box;
+  margin: 0;
+  overflow: hidden;
   font-family: 'Roboto', 'Sans serif';
- }
+  box-sizing: border-box;
+}
 
   .contenedor{
-    width: 90%;
-    max-width: 1200ppx;
+    width: 100%;
+    max-width: 1200px;
     margin: auto;
     padding-top: 10%;
-    padding-bottom: 30%;
+    padding-bottom: 20%;
   }
   .bg_animate{
     width: 100%;
@@ -29,6 +26,7 @@ height: 100%;
     color: #fff;
     font-family: 'Gagalin';
     font-size: 40px;
+    text-align: center;
   }
   .banner{
     display: flex;
@@ -177,3 +175,101 @@ height: 100%;
         transform: translateY(0);
       }
   }
+
+
+  .cont3{
+    font-family: sans-serif;
+    display: grid;
+    place-content: center;
+    color: white;
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(
+      to bottom right,
+      #9664bb 0%,
+      #6f37a4 20%,
+      #95289b 40%,
+      #fe7098 60%,
+      #f973d2 80%
+    );
+    background-size: 200% 200%;
+    animation: movimiento3 5s linear infinite alternate;
+    padding-top: 10%; 
+  }
+
+  .button-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px; 
+    padding: 20px; 
+  }
+  
+  ion-button {
+    margin-bottom: 20px; 
+    position: relative;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: all 500ms ease;
+  }
+
+
+  @keyframes movimiento3 {
+    from{
+      background-position: 0 0;
+    }
+    to{
+      background-position: 100% 100%;
+    }
+    
+  }
+  .contenedor2{
+    background: #0c192c;
+    position:relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+ .contenedor2 h1{
+  color: #fff;
+  font-family: 'Gagalin';
+  font-size: 40px;
+  text-align: center;
+  padding-left: 50px;
+  padding-top: 40px;
+ 
+
+ }
+  .bubbles{
+    position:relative;
+    display:flex;
+  }
+
+  .bubbles span{
+    position:relative;
+    width:30 px;
+    height: 30 px;
+    background: #4fc3dc;
+    margin: 0 4px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #4fc3dc44,
+    0 0 50px #4fc3dc,
+    0 0 100px #4fc3dc;
+    animation: animate 15s linear infinite;
+    animation-duration: calc(125s/var(--i));
+  }
+  .bubbles span:nth-child(even){
+    background: #ff2d75;
+    box-shadow: 0 0 0 10px #ff2d7544,
+    0 0 50px #ff2d75,
+    0 0 100px #ff2d75;
+  }
+  @keyframes animate {
+    0%{
+      transform: translateY(100vh) scale(0);
+    }
+    100%{
+       transform: translateY(-10vh) scale(1);
+    }
+  }
+

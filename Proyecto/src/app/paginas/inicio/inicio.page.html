@@ -1,18 +1,15 @@
 <app-header title="Inicio"></app-header>
 
 <ion-content>
-  <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
+  <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true" [slidesPerView]="1" [slidesPerGroup]="1">
     <!-- Pantalla 1 -->
     <swiper-slide>
-      
       <div class="bg_animate">
         <app-logo></app-logo>
-          <br>
-          <br>
-          <div class="contenedor">
-            <h1>Organiza tus productos</h1>
-          </div>
-        
+        <br><br>
+        <div class="contenedor">
+          <h1>Organiza tus productos</h1>
+        </div>
         <section class="banner">
           <section class="banner_title">
             <h2>Crea tu <br> inventario</h2>
@@ -36,32 +33,80 @@
       </div>
     </swiper-slide>
     <!-- Pantalla 2 -->
-    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>
+      <div class="contenedor2">
+        <app-logo></app-logo>
+        <br><br>
+        <section class="banner">
+            <h1>Calcula <br> tus ganancias</h1>
+        </section>
+        <div class="banner_img">
+          <img src="../../../assets/imagenes/ganancias.png" alt="logo">
+        </div>
+        <div class="bubbles">
+          <span style="--i:11;"></span>
+          <span style="--i:12;"></span>
+          <span style="--i:24;"></span>
+          <span style="--i:10;"></span>
+          <span style="--i:14;"></span>
+          <span style="--i:23;"></span>
+          <span style="--i:18;"></span>
+          <span style="--i:16;"></span>
+          <span style="--i:19;"></span>
+          <span style="--i:20;"></span>
+          <span style="--i:22;"></span>
+          <span style="--i:25;"></span>
+          <span style="--i:18;"></span>
+          <span style="--i:21;"></span>
+          <span style="--i:15;"></span>
+          <span style="--i:13;"></span>
+          <span style="--i:26;"></span>
+          <span style="--i:17;"></span>
+          <span style="--i:13;"></span>
+          <span style="--i:28;"></span>
+          <span style="--i:11;"></span>
+          <span style="--i:12;"></span>
+          <span style="--i:24;"></span>
+          <span style="--i:10;"></span>
+          <span style="--i:14;"></span>
+          <span style="--i:23;"></span>
+          <span style="--i:18;"></span>
+          <span style="--i:16;"></span>
+          <span style="--i:19;"></span>
+          <span style="--i:20;"></span>
+          <span style="--i:22;"></span>
+          <span style="--i:25;"></span>
+          <span style="--i:18;"></span>
+          <span style="--i:21;"></span>
+          <span style="--i:15;"></span>
+          <span style="--i:13;"></span>
+          <span style="--i:26;"></span>
+          <span style="--i:17;"></span>
+          <span style="--i:13;"></span>
+          <span style="--i:28;"></span>
+        
+        </div>
+      </div>
+    </swiper-slide>
+
     <!-- Pantalla 3 -->
     <swiper-slide>
-      <app-logo></app-logo>
-      <ion-icon slot="start" name=""></ion-icon>
-      <div class="d-flex-center">
-
-        <ion-button  expand="block" mode="ios" [routerLink]="['/login']"  color="secondary">
-          Entrar
-          <ion-icon slot="end" name="log-in-outline"></ion-icon>
-        </ion-button>
-        <ion-button  class="ion-margin-top" expand="block" [routerLink]="['/registro']"  mode="ios" color="secondary">
-          Registro
-          <ion-icon slot="end" name="person-add-outline"></ion-icon>
-        </ion-button>
-    
-  
-    </div>
+      <div class="cont3">
+        <app-logo></app-logo>
+        <br>
+        <br>
+        <h1>Entra o regístrate</h1>
+        <div class="button-box">
+          <ion-button expand="block" mode="ios" [routerLink]="['/login']" color="warning">
+            Entrar
+            <ion-icon slot="end" name="log-in-outline"></ion-icon>
+          </ion-button>
+          <ion-button class="ion-margin-top" expand="block" [routerLink]="['/registro']" mode="ios" color="warning">
+            Registro
+            <ion-icon slot="end" name="person-add-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
     </swiper-slide>
   </swiper-container>
-
-  <br>
-  
-   
-
- 
 </ion-content>
-  
-
