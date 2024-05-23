@@ -16,7 +16,7 @@ export class RegistroPage implements OnInit {
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    nombre: new FormControl('', [Validators.required, Validators.minLength(3)])
+    nombre: new FormControl('', [Validators.required, Validators.minLength(5)])
   })
 
   //INYECTANDO EL SERVICIO DE FIREBASE CON EL LOGIN PARA RECOGER DATOS 
