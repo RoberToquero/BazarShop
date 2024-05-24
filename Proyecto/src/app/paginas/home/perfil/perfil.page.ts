@@ -31,7 +31,7 @@ export class PerfilPage implements OnInit {
     this.usuario = this.utilsSvc.getFromLocal('user');
 
     console.log('User UID:', this.usuario.uid);
-    console.log('User Email:', this.usuario.email);
+    // console.log('User Email:', this.usuario.email);
     
     this.getUser();
   }

@@ -18,7 +18,7 @@ export class UserProfileComponent  implements OnInit {
   form = new FormGroup({
     uid: new FormControl(''),
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    password: new FormControl('', [Validators.required])
+    // password: new FormControl('', [Validators.required])
   })
 
   //INYECTANDO EL SERVICIO DE FIREBASE PARA RECOGER DATOS 
@@ -59,7 +59,7 @@ export class UserProfileComponent  implements OnInit {
         this.utilsSvc.dismissModal({ success: true});
 
         this.usuario.nombre = this.form.value.nombre;
-        this.usuario.password = this.form.value.password;
+        // this.usuario.password = this.form.value.password;
 
   
       this.utilsSvc.presentToast({
